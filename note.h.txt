@@ -1,0 +1,54 @@
+Note.h
+#pragma once
+
+struct NOTE {
+    std::string NAME;
+    std::string TELE;
+    int BDAY[3];
+};
+
+Main.cpp
+#include <iostream>
+#include <string>
+#include "note.h"
+
+int main() {
+    NOTE BLOCKNOTE[8];
+
+
+    for (int i = 0; i < 8; ++i) {
+        std::cout << "Введите данные для человека " << i + 1 << ":" << std::endl;
+        std::cout << "Фамилия и имя: ";
+        std::getline(std::cin >> std::ws, BLOCKNOTE[i].NAME);
+        std::cout << "Номер телефона: ";
+        std::getline(std::cin >> std::ws, BLOCKNOTE[i].TELE);
+        std::cout << "Дата рождения (день месяц год): ";
+        std::cin >> BLOCKNOTE[i].BDAY[0] >> BLOCKNOTE[i].BDAY[1] >> BLOCKNOTE[i].BDAY[2];
+        std::cin.ignore(); 
+    }
+
+
+    std::string searchLastName;
+    std::cout << "\nВведите фамилию для поиска: ";
+    std::getline(std::cin >> std::ws, searchLastName);
+
+    bool found = false;
+    for (int i = 0; i < 8; ++i) {
+        size_t pos = BLOCKNOTE[i].NAME.find(' ');
+        std::string lastName = (pos == std::string::npos) ? BLOCKNOTE[i].NAME : BLOCKNOTE[i].NAME.substr(0, pos);
+        if (lastName == searchLastName) {
+            std::cout << "\nНайден человек:\n";
+            std::cout << "Фамилия и имя: " << BLOCKNOTE[i].NAME << std::endl;
+            std::cout << "Номер телефона: " << BLOCKNOTE[i].TELE << std::endl;
+            std::cout << "Дата рождения: " << BLOCKNOTE[i].BDAY[0] << "." << BLOCKNOTE[i].BDAY[1] << "." << BLOCKNOTE[i].BDAY[2] << std::endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        std::cout << "\nЧеловек с такой фамилией не найден.\n";
+    }
+
+    return 0;
+}
